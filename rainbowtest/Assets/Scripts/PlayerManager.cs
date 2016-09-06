@@ -53,9 +53,9 @@ public class PlayerManager : NetworkBehaviour {
 		for (int i = 0; i < disableOnDeath.Length; i++) {
 			disableOnDeath[i].enabled = false;
 		}
-		Collider col = GetComponent<Collider>();
-		if (col != null)
-			col.enabled = false;
+//		Collider col = GetComponent<Collider>();
+//		if (col != null)
+//			col.enabled = false;
 
 		Debug.Log (transform.name + " is Dead!");
 

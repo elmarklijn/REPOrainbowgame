@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
 
-public class CatapultScript : NetworkBehaviour {
+
+public class CatapultScript : MonoBehaviour {
 
 private Animator anim;
 

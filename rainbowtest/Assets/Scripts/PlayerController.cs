@@ -9,10 +9,30 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private float speed = 5f;
 	[SerializeField]
+	private float defaultSpeed = 5f;
+	[SerializeField]
+	private float runspeed = 10f;
+	[SerializeField]
+	private float staminaStopSpeed = 1f;
+	[SerializeField]
 	private float lookSensitivity = 3f;
+	private bool cantSprint = false;
 	private PlayerMotor motor;
 
 	private Animator animator;
+
+	[SerializeField]
+	private float staminaAmount = 1f;
+	private float staminaBurn = 0.3f;
+	private float staminaRegen = 0.1f;
+	private float staminaStopSec = 3f;
+
+
+	//getter voor de staminabalk
+	public float GetStaminaAmount () {
+		Debug.Log (staminaAmount);
+		return staminaAmount;	
+	}
 
 	void Start () {
 		motor = GetComponent<PlayerMotor>();
@@ -53,6 +73,40 @@ public class PlayerController : MonoBehaviour {
 		//apply camerarotation
 		motor.RotateCamera(cameraRotationX);
 
+		//apply run
+		if (Input.GetButton ("Sprint") && cantSprint == false && staminaAmount > 0.05f) {
+			//stamina burnen in real time, geen framerate afhankelijk
+			staminaAmount -= staminaBurn * Time.deltaTime;
+			speed = runspeed;
+			animator.speed = 2f;
+		} else {
+			//stamina terug krijgen
+			staminaAmount += staminaRegen * Time.deltaTime;
+			speed = defaultSpeed;
+			animator.speed = 1f;
+		}
+		//clampen van stamina
+		staminaAmount = Mathf.Clamp (staminaAmount, 0f, 1f);
+		if (staminaAmount <= 0.05f) {
+			cantSprint = true;
+			Invoke("StaminaStop", staminaStopSec);
+			animator.speed = 0.2f;
+			cantSprint = false;
+		}
+		if (staminaAmount >= 1f) {
+			speed = defaultSpeed;
+			animator.speed = 1f;
+		}
+		GetStaminaAmount();
+
 	}
+
+
+	//stamina invoke method
+	void StaminaStop() {
+		speed = staminaStopSpeed;
+		}
+
+
 
 }

@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 
 
 [RequireComponent(typeof(PlayerManager))]
+[RequireComponent(typeof(PlayerController))]
 
 public class PlayerSetup : NetworkBehaviour {
 
@@ -31,11 +32,19 @@ public class PlayerSetup : NetworkBehaviour {
 			if (sceneCamera != null) {
 				sceneCamera.gameObject.SetActive(false);
 			}
+
 			//disable player graphics for local player
 			SetLayerRecursively (playerGraphics, LayerMask.NameToLayer(dontDrawLayerName));
+
 			//create player UI
 			playerUIInstance = Instantiate (playerUIPrefab);
 			playerUIInstance.name = playerUIPrefab.name;
+
+			//configure player UI
+			PlayerUI ui = playerUIInstance.GetComponent<PlayerUI>();
+			if (ui == null)
+				Debug.LogError ("No player UI component on player prefab");
+			ui.SetController (GetComponent<PlayerController>());
 		}
 
 		GetComponent<PlayerManager>().Setup();
