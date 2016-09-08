@@ -86,6 +86,12 @@ public class PlayerController : MonoBehaviour {
 		}
 
 
+
+		//TIJDELIJK!!
+		if (Input.GetKey(KeyCode.K))
+			GetComponentInParent<PlayerManager>().RpcTakeDamage(999999);
+
+
 	}
 
 

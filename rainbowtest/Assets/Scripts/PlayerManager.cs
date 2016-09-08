@@ -2,6 +2,9 @@
 using UnityEngine.Networking;
 using System.Collections;
 
+
+[RequireComponent(typeof(PlayerSetup))]
+
 public class PlayerManager : NetworkBehaviour {
 
 	[SyncVar]
@@ -21,6 +24,12 @@ public class PlayerManager : NetworkBehaviour {
 	[SerializeField]
 	private Behaviour[] disableOnDeath;
 	private bool[] wasEnabled;
+
+	[SerializeField]
+	private GameObject[] disableGameObjectsOnDeath;
+
+	[SerializeField]
+	private GameObject spawnEffect;
 
 	public void Setup () {
 
@@ -53,11 +62,21 @@ public class PlayerManager : NetworkBehaviour {
 		for (int i = 0; i < disableOnDeath.Length; i++) {
 			disableOnDeath[i].enabled = false;
 		}
+
+		//disable gameobjects
+		for (int i = 0; i < disableGameObjectsOnDeath.Length; i++) {
+			disableGameObjectsOnDeath[i].SetActive(false);
+		}
+
 //		Collider col = GetComponent<Collider>();
 //		if (col != null)
 //			col.enabled = false;
 
-																									// TODO animatie voor doodgaan!
+		// switch camera and disable UI																						// TODO animatie voor doodgaan!
+		if (isLocalPlayer){
+			GameManager.instance.SceneCameraActive(true);
+			GetComponent<PlayerSetup>().playerUIInstance.SetActive(false);
+		}
 
 		Debug.Log (transform.name + " is Dead!");
 
@@ -69,10 +88,12 @@ public class PlayerManager : NetworkBehaviour {
 	private IEnumerator Respawn () {
 		
 		yield return new WaitForSeconds(GameManager.instance.matchSettings.respawnTime);
-		SetDefaults();
+
 		Transform startPoint = NetworkManager.singleton.GetStartPosition();
 		transform.position = startPoint.position;
 		transform.rotation = startPoint.rotation;
+
+		SetDefaults();
 	}
 
 
@@ -82,13 +103,30 @@ public class PlayerManager : NetworkBehaviour {
 
 		currentHealth = maxHealth;
 
+		//enable components
 		for (int i = 0; i < disableOnDeath.Length; i++) {
 			disableOnDeath[i].enabled = wasEnabled[i];
 		}
 
+		//enable gameobjects
+		for (int i = 0; i < disableGameObjectsOnDeath.Length; i++) {
+			disableGameObjectsOnDeath[i].SetActive(true);
+		}
+
+		//enable collider
 		Collider col = GetComponent<Collider>();
 		if (col != null)
 			col.enabled = true;
+
+		//switch camera en enable UI
+		if (isLocalPlayer){
+			GameManager.instance.SceneCameraActive(false);
+			GetComponent<PlayerSetup>().playerUIInstance.SetActive(true);
+		}
+
+		//create spawneffect
+		GameObject _gfxIns = (GameObject)Instantiate(spawnEffect, transform.position, Quaternion.identity);
+		Destroy(_gfxIns, 3f);
 	}
 
 }
