@@ -11,7 +11,7 @@ public class PlayerUI : MonoBehaviour {
 		controller = _controller;
 	}
 
-	void Start () {
+	void Awake () {
 		controller = GetComponent<PlayerController>();
 	}
 

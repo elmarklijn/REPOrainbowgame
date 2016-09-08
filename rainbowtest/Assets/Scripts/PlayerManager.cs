@@ -57,6 +57,8 @@ public class PlayerManager : NetworkBehaviour {
 //		if (col != null)
 //			col.enabled = false;
 
+																									// TODO animatie voor doodgaan!
+
 		Debug.Log (transform.name + " is Dead!");
 
 		// call respawn
