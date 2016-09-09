@@ -23,11 +23,17 @@ public class PlayerController : MonoBehaviour {
 	private float staminaBurn = 0.3f;
 	private float staminaRegen = 0.1f;
 
-
 	//getter voor de staminabalk
 	public float GetStaminaAmount () {
 		return staminaAmount;	
 	}
+
+
+	//pickup and carry
+	private bool carrying;
+	private GameObject carriedObject;
+	public float carrydistance;
+
 
 	void Start () {
 		motor = GetComponent<PlayerMotor>();
@@ -85,6 +91,14 @@ public class PlayerController : MonoBehaviour {
 			animator.speed = 1f;
 		}
 
+		//dingen oppoakken!
+		if (carrying) {
+			Carry(carriedObject);
+			CheckDrop();
+		} else {
+			PickUp();
+		}
+
 
 
 		//TIJDELIJK!!
@@ -92,7 +106,41 @@ public class PlayerController : MonoBehaviour {
 			GetComponentInParent<PlayerManager>().RpcTakeDamage(999999);
 
 
+		
 	}
 
+	private void Carry (GameObject o) {
+		
+		o.transform.position = Vector3.Lerp (o.transform.position, GetComponentInChildren<Camera>().transform.position +  GetComponentInChildren<Camera>().transform.forward * carrydistance, Time.deltaTime);
+	}
 
+	void PickUp() {
+		if (Input.GetKeyDown (KeyCode.E)) {
+			int x = Screen.width / 2;
+			int y = Screen.width / 2;
+
+			Ray ray = GetComponentInChildren<Camera>().ScreenPointToRay(new Vector3(x,y));
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit)) {
+				Pickupable p = hit.collider.GetComponent<Pickupable>();
+				if (p != null) {
+					carrying = true;
+					carriedObject = p.gameObject;
+					p.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+				}
+			}
+		}
+	}
+
+	void CheckDrop() {
+		if (Input.GetKeyDown (KeyCode.E)) {
+			DropObject();
+		}
+	}
+
+	void DropObject() {
+		carrying = false;
+		carriedObject.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+		carriedObject = null;
+	}
 }

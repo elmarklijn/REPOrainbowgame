@@ -31,6 +31,8 @@ public class PlayerManager : NetworkBehaviour {
 	[SerializeField]
 	private GameObject spawnEffect;
 
+	public Animator anim;
+
 	public void Setup () {
 
 		wasEnabled = new bool[disableOnDeath.Length];
@@ -72,7 +74,9 @@ public class PlayerManager : NetworkBehaviour {
 //		if (col != null)
 //			col.enabled = false;
 
-		// switch camera and disable UI																						// TODO animatie voor doodgaan!
+		//animatie
+		anim.SetBool("isDead", true);
+		// switch camera and disable UI																						
 		if (isLocalPlayer){
 			GameManager.instance.SceneCameraActive(true);
 			GetComponent<PlayerSetup>().playerUIInstance.SetActive(false);
@@ -100,7 +104,7 @@ public class PlayerManager : NetworkBehaviour {
 	public void SetDefaults() {
 
 		isDead = false;
-
+		anim.SetBool("isDead", false);
 		currentHealth = maxHealth;
 
 		//enable components
