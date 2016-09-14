@@ -9,7 +9,7 @@ public class PlayerManager : NetworkBehaviour {
 
 	[SyncVar]
 	private bool _isDead = false;
-	public bool isDead 
+	public bool isDead
 	{
 		get { return _isDead; }
 		protected set { _isDead = value; }
@@ -32,6 +32,8 @@ public class PlayerManager : NetworkBehaviour {
 	private GameObject spawnEffect;
 
 	public Animator anim;
+
+	private GameObject GoldPot;
 
 	public void Setup () {
 
@@ -60,6 +62,16 @@ public class PlayerManager : NetworkBehaviour {
 	private void Die() {
 		isDead = true;
 
+		//drop pot if carrying
+		if (GameObject.FindGameObjectWithTag("GoldPot") != null) {
+			if (GetComponentInChildren<Pickupable>()) {
+			GoldPot = GameObject.FindGameObjectWithTag("GoldPot");
+			GoldPot.GetComponent<BoxCollider>().enabled = true;
+			GoldPot.GetComponent<Rigidbody>().isKinematic = false;
+			GoldPot.transform.SetParent(null);
+			PlayerController.isHolding = false;
+		}
+		}
 		//disable components
 		for (int i = 0; i < disableOnDeath.Length; i++) {
 			disableOnDeath[i].enabled = false;

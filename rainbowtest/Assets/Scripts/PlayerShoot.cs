@@ -36,6 +36,9 @@ public class PlayerShoot : NetworkBehaviour {
 		if (!isLocalPlayer) {
 			return;
 		}
+		if (PlayerController.isHolding == true) {
+			return;
+		}
 		if (Input.GetButtonDown("Fire1")) {
 			startPull = Time.time;
 			anim.SetBool("PlayerAiming", true);
