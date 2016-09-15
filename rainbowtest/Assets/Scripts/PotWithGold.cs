@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class PotWithGold : MonoBehaviour {
+public class PotWithGold : NetworkBehaviour {
 
 	private Transform targetPos;
 	private Rigidbody rB;

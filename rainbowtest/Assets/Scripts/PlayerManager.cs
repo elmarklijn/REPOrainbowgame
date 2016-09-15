@@ -35,8 +35,22 @@ public class PlayerManager : NetworkBehaviour {
 
 	private GameObject GoldPot;
 
-	public void Setup () {
+	public void PlayerSetup () {
 
+		//switch camera en enable UI
+		GameManager.instance.SceneCameraActive(false);
+		GetComponent<PlayerSetup>().playerUIInstance.SetActive(true);
+
+		CmdBroadCastNewPlayerSetup();
+	}
+
+	[Command]
+	private void CmdBroadCastNewPlayerSetup() {
+		RpcSetupPlayerOnAllClients();
+	}
+
+	[ClientRpc]
+	private void RpcSetupPlayerOnAllClients () {
 		wasEnabled = new bool[disableOnDeath.Length];
 		for (int i = 0; i < wasEnabled.Length; i++) {
 			wasEnabled[i] = disableOnDeath[i].enabled;
@@ -44,6 +58,8 @@ public class PlayerManager : NetworkBehaviour {
 
 		SetDefaults();
 	}
+
+
 
 	[ClientRpc]
 	public void RpcTakeDamage (int amount) {
@@ -70,6 +86,7 @@ public class PlayerManager : NetworkBehaviour {
 			GoldPot.GetComponent<Rigidbody>().isKinematic = false;
 			GoldPot.transform.SetParent(null);
 			PlayerController.isHolding = false;
+			anim.SetBool("isCarrying", false);
 		}
 		}
 		//disable components
@@ -109,6 +126,10 @@ public class PlayerManager : NetworkBehaviour {
 		transform.position = startPoint.position;
 		transform.rotation = startPoint.rotation;
 
+		//switch camera en enable UI
+		GameManager.instance.SceneCameraActive(false);
+		GetComponent<PlayerSetup>().playerUIInstance.SetActive(true);
+
 		SetDefaults();
 	}
 
@@ -134,11 +155,6 @@ public class PlayerManager : NetworkBehaviour {
 		if (col != null)
 			col.enabled = true;
 
-		//switch camera en enable UI
-		if (isLocalPlayer){
-			GameManager.instance.SceneCameraActive(false);
-			GetComponent<PlayerSetup>().playerUIInstance.SetActive(true);
-		}
 
 		//create spawneffect
 		GameObject _gfxIns = (GameObject)Instantiate(spawnEffect, transform.position, Quaternion.identity);
