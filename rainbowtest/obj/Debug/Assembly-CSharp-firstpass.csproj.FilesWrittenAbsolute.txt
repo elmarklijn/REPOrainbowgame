@@ -16,3 +16,22 @@
 /Users/Elmar/UNITY FILES/rainbowtest/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/Elmar/UNITY FILES/rainbowtest/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/Elmar/UNITY FILES/rainbowtest/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/obj/Debug/Assembly-CSharp-firstpass.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/obj/Debug/Assembly-CSharp-firstpass.dll.mdb
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/UnityEngine.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/UnityEditor.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/UnityEngine.Analytics.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Mono.Cecil.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Unity.DataContract.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/DatabaseControl.dll

@@ -14,11 +14,14 @@ private Animator anim;
 
 	void Update () {
 
-		if (Input.GetButtonDown("Fire1")) {
-			anim.SetBool("IsAiming", true);
-		}
-		if (Input.GetButtonUp("Fire1")) {
-			anim.SetBool("IsAiming", false);
+		if (gameObject.GetComponentInParent<PlayerController>().isActiveAndEnabled && !PauseMenu.IsOn)
+		{
+			if (Input.GetButtonDown("Fire1")) {
+				anim.SetBool("IsAiming", true);
+				}
+			if (Input.GetButtonUp("Fire1")) {
+				anim.SetBool("IsAiming", false);
+			}
 		}
 	}
 }

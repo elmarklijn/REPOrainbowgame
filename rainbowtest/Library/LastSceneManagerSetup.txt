@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/RainbowTest.unity
+- path: Assets/_Scenes/LoginMenu.unity
   isLoaded: 1
   isActive: 1

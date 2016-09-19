@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 
 
 [RequireComponent(typeof(PlayerManager))]
+[RequireComponent(typeof(PlayerController))]
 
 public class PlayerSetup : NetworkBehaviour {
 
@@ -18,27 +19,31 @@ public class PlayerSetup : NetworkBehaviour {
 
 	[SerializeField]
 	GameObject playerUIPrefab;
-	private GameObject playerUIInstance;
+	[HideInInspector]
+	public GameObject playerUIInstance;
 
-	Camera sceneCamera;
 
 	void Start() {
 		if (!isLocalPlayer) {
 			DisableComponents();
 			AssignRemoteLayer();
 		} else {
-			sceneCamera = Camera.main;
-			if (sceneCamera != null) {
-				sceneCamera.gameObject.SetActive(false);
-			}
+
 			//disable player graphics for local player
 			SetLayerRecursively (playerGraphics, LayerMask.NameToLayer(dontDrawLayerName));
+
 			//create player UI
 			playerUIInstance = Instantiate (playerUIPrefab);
 			playerUIInstance.name = playerUIPrefab.name;
-		}
 
-		GetComponent<PlayerManager>().Setup();
+			//configure player UI
+			PlayerUI ui = playerUIInstance.GetComponent<PlayerUI>();
+			if (ui == null)
+				Debug.LogError ("No player UI component on player prefab");
+			ui.SetController (GetComponent<PlayerController>());
+
+			GetComponent<PlayerManager>().SetupPlayer();
+		}
 	}
 
 	void SetLayerRecursively (GameObject obj, int newLayer) {
@@ -71,9 +76,9 @@ public class PlayerSetup : NetworkBehaviour {
 	void OnDisable () {
 
 		Destroy (playerUIInstance);
-		if (sceneCamera != null) {
-			sceneCamera.gameObject.SetActive(true);
-		}
+
+		if (isLocalPlayer)
+		GameManager.instance.SceneCameraActive(true);
 
 		GameManager.UnRegisterPlayer(transform.name);
 	}

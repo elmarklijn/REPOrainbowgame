@@ -4,8 +4,6 @@
 
 public class PlayerMotor : MonoBehaviour {
 
-	private Animator anim;
-
 	[SerializeField]
 	private Camera cam;
 
@@ -22,7 +20,6 @@ public class PlayerMotor : MonoBehaviour {
 
 	void Start () {
 		rb = GetComponent<Rigidbody>();
-		anim = GetComponentInChildren<Animator>();
 	}	
 
 	// get movement vector
