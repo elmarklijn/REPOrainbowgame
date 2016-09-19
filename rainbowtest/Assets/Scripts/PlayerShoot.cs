@@ -33,7 +33,7 @@ public class PlayerShoot : NetworkBehaviour {
 
 	void Update () {
 
-		if (!isLocalPlayer || PlayerController.isHolding == true) {
+		if (!isLocalPlayer || PlayerController.isHolding == true || PauseMenu.IsOn) {
 			return;
 		}
 		if (Input.GetButtonDown("Fire1")) {

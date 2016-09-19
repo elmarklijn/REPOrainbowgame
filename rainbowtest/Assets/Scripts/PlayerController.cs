@@ -41,6 +41,12 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update () {
+
+		//pause
+		if (PauseMenu.IsOn){
+			return;
+		}
+
 		//bereken movement als 3d vector
 		float xMov = Input.GetAxis("Horizontal");
 		float zMov = Input.GetAxis("Vertical");

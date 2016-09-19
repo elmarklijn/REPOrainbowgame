@@ -38,7 +38,7 @@ public class JoinGame : MonoBehaviour {
 	public void OnMatchList (bool succes, string extendedInfo, List<MatchInfoSnapshot> matchList) {
 		status.text = "";
 
-		if (succes == false) {
+		if (succes == false || matchList == null) {
 			status.text = "Couldn't find any rooms: " + extendedInfo + ".";
 			return;
 		}
