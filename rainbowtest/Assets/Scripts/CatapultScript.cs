@@ -14,7 +14,7 @@ private Animator anim;
 
 	void Update () {
 
-		if (gameObject.layer == 8)
+		if (gameObject.GetComponentInParent<PlayerController>().isActiveAndEnabled)
 		{
 			if (Input.GetButtonDown("Fire1")) {
 				anim.SetBool("IsAiming", true);

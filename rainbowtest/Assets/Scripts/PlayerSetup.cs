@@ -42,7 +42,7 @@ public class PlayerSetup : NetworkBehaviour {
 				Debug.LogError ("No player UI component on player prefab");
 			ui.SetController (GetComponent<PlayerController>());
 
-			GetComponent<PlayerManager>().PlayerSetup();
+			GetComponent<PlayerManager>().SetupPlayer();
 		}
 	}
 
@@ -77,6 +77,7 @@ public class PlayerSetup : NetworkBehaviour {
 
 		Destroy (playerUIInstance);
 
+		if (isLocalPlayer)
 		GameManager.instance.SceneCameraActive(true);
 
 		GameManager.UnRegisterPlayer(transform.name);

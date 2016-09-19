@@ -17,29 +17,30 @@ public class PlayerManager : NetworkBehaviour {
 
 	[SerializeField]
 	private int maxHealth = 100;
-
 	[SyncVar]
 	private int currentHealth;
-
 	[SerializeField]
 	private Behaviour[] disableOnDeath;
 	private bool[] wasEnabled;
-
 	[SerializeField]
 	private GameObject[] disableGameObjectsOnDeath;
-
 	[SerializeField]
 	private GameObject spawnEffect;
+	private bool firstSetup = true;
 
 	public Animator anim;
-
 	private GameObject GoldPot;
 
-	public void PlayerSetup () {
 
-		//switch camera en enable UI
-		GameManager.instance.SceneCameraActive(false);
-		GetComponent<PlayerSetup>().playerUIInstance.SetActive(true);
+
+
+	public void SetupPlayer () {
+
+		if (isLocalPlayer) {
+			//switch camera en enable UI
+			GameManager.instance.SceneCameraActive(false);
+			GetComponent<PlayerSetup>().playerUIInstance.SetActive(true);
+		}
 
 		CmdBroadCastNewPlayerSetup();
 	}
@@ -51,9 +52,12 @@ public class PlayerManager : NetworkBehaviour {
 
 	[ClientRpc]
 	private void RpcSetupPlayerOnAllClients () {
-		wasEnabled = new bool[disableOnDeath.Length];
-		for (int i = 0; i < wasEnabled.Length; i++) {
-			wasEnabled[i] = disableOnDeath[i].enabled;
+		if (firstSetup) {
+			wasEnabled = new bool[disableOnDeath.Length];
+			for (int i = 0; i < wasEnabled.Length; i++) {
+				wasEnabled[i] = disableOnDeath[i].enabled;
+			}
+			firstSetup = false;
 		}
 
 		SetDefaults();
@@ -126,11 +130,9 @@ public class PlayerManager : NetworkBehaviour {
 		transform.position = startPoint.position;
 		transform.rotation = startPoint.rotation;
 
-		//switch camera en enable UI
-		GameManager.instance.SceneCameraActive(false);
-		GetComponent<PlayerSetup>().playerUIInstance.SetActive(true);
+		yield return new WaitForSeconds(0.1f);
 
-		SetDefaults();
+		SetupPlayer();
 	}
 
 
