@@ -76,3 +76,6 @@
 /Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/UnityEditor.iOS.Extensions.Common.dll.mdb
 /Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/UnityEditor.iOS.Extensions.Xcode.dll
 /Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/UnityEditor.iOS.Extensions.Xcode.dll.mdb
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/Assembly-UnityScript.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/DatabaseControl.dll
+/Users/Elmar/Documents/REPOS/REPOrainbowgame/rainbowtest/Temp/bin/Debug/DatabaseControlEditor.dll
