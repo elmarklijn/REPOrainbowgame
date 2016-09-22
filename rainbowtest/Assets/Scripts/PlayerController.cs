@@ -43,9 +43,21 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 
 		//pause
-		if (PauseMenu.IsOn){
+		if (PauseMenu.IsOn) {
+
+			if (Cursor.lockState != CursorLockMode.None)
+				Cursor.lockState = CursorLockMode.None;
+			motor.Move (Vector3.zero);
+			motor.Rotate (Vector3.zero);
+			motor.RotateCamera(0f);
+
 			return;
 		}
+
+		if (Cursor.lockState != CursorLockMode.Locked) {
+			Cursor.lockState = CursorLockMode.Locked;
+		}
+
 
 		//bereken movement als 3d vector
 		float xMov = Input.GetAxis("Horizontal");
@@ -121,7 +133,7 @@ public class PlayerController : MonoBehaviour {
 
 		//TIJDELIJK!!
 		if (Input.GetKey(KeyCode.K))
-			GetComponentInParent<PlayerManager>().RpcTakeDamage(999999);
+			GetComponentInParent<PlayerManager>().RpcTakeDamage(999999, "TESTKILL");
 
 	}
 

@@ -85,17 +85,17 @@ public class PlayerShoot : NetworkBehaviour {
 			Debug.Log (hit.collider);
 			//we hit something with raycast
 			if (hit.collider.tag == PLAYER_TAG) {
-				CmdPlayerShot(hit.collider.name, weapon.damage);
+				CmdPlayerShot(hit.collider.name, weapon.damage, transform.name);
 			}
 		}
 	}
 
 	[Command]
-	void CmdPlayerShot(string playerID, int damage) {
+	void CmdPlayerShot(string playerID, int damage, string _sourceID) {
 		Debug.Log (playerID + " has been shot.");
 
 		PlayerManager player = GameManager.GetPlayer(playerID);
-		player.RpcTakeDamage(damage);
+		player.RpcTakeDamage(damage, _sourceID);
 	}
 
 

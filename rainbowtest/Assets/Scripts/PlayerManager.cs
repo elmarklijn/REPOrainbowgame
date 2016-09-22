@@ -19,6 +19,10 @@ public class PlayerManager : NetworkBehaviour {
 	private int maxHealth = 100;
 	[SyncVar]
 	private int currentHealth;
+
+	public int kills;
+	public int deaths;
+
 	[SerializeField]
 	private Behaviour[] disableOnDeath;
 	private bool[] wasEnabled;
@@ -66,7 +70,7 @@ public class PlayerManager : NetworkBehaviour {
 
 
 	[ClientRpc]
-	public void RpcTakeDamage (int amount) {
+	public void RpcTakeDamage (int amount, string _sourceID) {
 		if (isDead)
 			return;
 
@@ -75,13 +79,20 @@ public class PlayerManager : NetworkBehaviour {
 		Debug.Log (transform.name + " now has " + currentHealth + " health.");
 
 		if (currentHealth <= 0) {
-			Die();
+
+			Die(_sourceID);
 		}
 	}
 
-	private void Die() {
+	private void Die(string _sourceID) {
 		isDead = true;
 
+		PlayerManager sourcePlayer = GameManager.GetPlayer(_sourceID);
+		if (sourcePlayer != null) {
+			sourcePlayer.kills++;
+		}
+
+		deaths++;
 		//drop pot if carrying
 		if (GameObject.FindGameObjectWithTag("GoldPot") != null) {
 			if (GetComponentInChildren<Pickupable>()) {
