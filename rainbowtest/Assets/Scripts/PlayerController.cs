@@ -113,6 +113,9 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown("Use") && isHolding == false) {
 			if (GoldPot != null) {
 				animator.SetBool("isCarrying", true);
+				GetComponent<PlayerManager>().CmdWantToPickUp();
+//				GoldPot.GetComponent<NetworkIdentity>().AssignClientAuthority(this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
+//				Debug.Log ("authority voor de goldpot voor: " + this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
 				GoldPot.GetComponent<BoxCollider>().enabled = false;
 				GoldPot.GetComponent<Rigidbody>().isKinematic = true;
 				GoldPot.transform.SetParent(carryObject.transform);
@@ -124,16 +127,18 @@ public class PlayerController : MonoBehaviour {
 		else if (Input.GetButtonDown("Use") && isHolding == true) {
 			if (GoldPot != null) {
 				animator.SetBool("isCarrying", false);
+				GetComponent<PlayerManager>().CmdWantToPutDown();
+//				GoldPot.GetComponent<NetworkIdentity>().RemoveClientAuthority(this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
+//				Debug.Log ("lost authority voor de goldpot voor: " + this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
 				GoldPot.GetComponent<BoxCollider>().enabled = true;
 				GoldPot.GetComponent<Rigidbody>().isKinematic = false;
 				GoldPot.transform.SetParent(null);
 				isHolding = false;
 				}
 			}
-
 		//TIJDELIJK!!
 		if (Input.GetKey(KeyCode.K))
-			GetComponentInParent<PlayerManager>().RpcTakeDamage(999999, "TESTKILL");
+			GetComponentInParent<PlayerManager>().RpcTakeDamage(999999, this.name);
 
 	}
 
@@ -150,7 +155,6 @@ public class PlayerController : MonoBehaviour {
 			GoldPot = null;
 			Debug.Log ("collider found: " + GoldPot);
 		}
-
 
 }
 	
