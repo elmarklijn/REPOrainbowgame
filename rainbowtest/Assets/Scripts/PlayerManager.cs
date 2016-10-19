@@ -61,6 +61,8 @@ public class PlayerManager : NetworkBehaviour {
 			for (int i = 0; i < wasEnabled.Length; i++) {
 				wasEnabled[i] = disableOnDeath[i].enabled;
 			}
+								//probeersel !KAN ALLEN VERWIJDERT WORDEN ALS HET NIET WERKT!//
+								GetComponent<SpawnColor>().GetStartColor();
 			firstSetup = false;
 		}
 
@@ -178,13 +180,16 @@ public class PlayerManager : NetworkBehaviour {
 		public void CmdWantToPickUp () {
 			GoldPot = GameObject.FindGameObjectWithTag("GoldPot");
 			GoldPot.GetComponent<NetworkIdentity>().AssignClientAuthority(this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
-			Debug.Log ("authority voor de goldpot voor: " + this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
+//			Debug.Log ("authority voor de goldpot voor: " + this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
 		}
 
 	[Command]
 		public void CmdWantToPutDown() {
-			GoldPot = GameObject.FindGameObjectWithTag("GoldPot");
-			GoldPot.GetComponent<NetworkIdentity>().RemoveClientAuthority(this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
-			Debug.Log ("lost authority voor de goldpot voor: " + this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
+		GoldPot = GameObject.FindGameObjectWithTag("GoldPot");
+			if (GoldPot.GetComponent<NetworkIdentity>().clientAuthorityOwner != null) {
+				Debug.Log ("found a KUTMORON! proberen te verwijderen:");
+				GoldPot.GetComponent<NetworkIdentity>().RemoveClientAuthority(GoldPot.GetComponent<NetworkIdentity>().clientAuthorityOwner);
+//			Debug.Log ("lost authority voor de goldpot voor: " + this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
+			} else { return; }
 		}
 }

@@ -17,12 +17,12 @@ public class PotWithGold : NetworkBehaviour {
 	}
 	
 	// Update is called once per frame
-//	void Update () {
-//		if (Input.GetKeyDown (KeyCode.F)){
-//			CmdRequestRainbowSpawn();			
-//				Debug.Log ("rainbow spawned");
-//			}
-//		}
+	void Update () {
+		if (transform.position.y <= 0) {
+			rB.constraints = RigidbodyConstraints.FreezeAll;
+		}
+
+	}
 
 //	[Command]
 //	void CmdRequestRainbowSpawn () {
@@ -42,7 +42,6 @@ public class PotWithGold : NetworkBehaviour {
 
 	void OnTriggerEnter (Collider collider) {
 		if (collider.gameObject.name == "Terrain") {
-		rB.constraints = RigidbodyConstraints.FreezeAll;
 		Debug.Log ("Ground Collision found: spawning Pot on server!");
 			int amountPots = GameObject.FindGameObjectsWithTag("GoldPot").Length;
 			if (isServer && amountPots == 0) {

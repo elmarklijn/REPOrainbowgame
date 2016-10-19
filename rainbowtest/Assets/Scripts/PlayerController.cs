@@ -112,8 +112,11 @@ public class PlayerController : MonoBehaviour {
 		//goldpot oppakken
 		if (Input.GetButtonDown("Use") && isHolding == false) {
 			if (GoldPot != null) {
+//					Debug.Log ("removing Authority from " + GoldPot.GetComponent<NetworkIdentity>().clientAuthorityOwner.ToString());
+				GetComponent<PlayerManager>().CmdWantToPutDown();
 				animator.SetBool("isCarrying", true);
 				GetComponent<PlayerManager>().CmdWantToPickUp();
+//					Debug.Log ("giving Authority to " + GoldPot.GetComponent<NetworkIdentity>().clientAuthorityOwner.ToString());
 //				GoldPot.GetComponent<NetworkIdentity>().AssignClientAuthority(this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
 //				Debug.Log ("authority voor de goldpot voor: " + this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
 				GoldPot.GetComponent<BoxCollider>().enabled = false;
@@ -122,14 +125,11 @@ public class PlayerController : MonoBehaviour {
 				GoldPot.transform.localPosition = Vector3.zero;
 				GoldPot.transform.localRotation = Quaternion.identity;
 				isHolding = true;
-				}
 			}
+		}
 		else if (Input.GetButtonDown("Use") && isHolding == true) {
 			if (GoldPot != null) {
 				animator.SetBool("isCarrying", false);
-				GetComponent<PlayerManager>().CmdWantToPutDown();
-//				GoldPot.GetComponent<NetworkIdentity>().RemoveClientAuthority(this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
-//				Debug.Log ("lost authority voor de goldpot voor: " + this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
 				GoldPot.GetComponent<BoxCollider>().enabled = true;
 				GoldPot.GetComponent<Rigidbody>().isKinematic = false;
 				GoldPot.transform.SetParent(null);
