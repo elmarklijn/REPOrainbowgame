@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour {
 		void OnTriggerExit (Collider collider) {
 			Debug.Log ("NOT close enough to pick up pot");
 			GoldPot = null;
-			Debug.Log ("collider found: " + GoldPot);
+			Debug.Log ("collider gone: " + GoldPot);
 		}
 
 }
