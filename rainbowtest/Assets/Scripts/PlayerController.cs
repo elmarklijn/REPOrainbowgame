@@ -43,9 +43,21 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 
 		//pause
-		if (PauseMenu.IsOn){
+		if (PauseMenu.IsOn) {
+
+			if (Cursor.lockState != CursorLockMode.None)
+				Cursor.lockState = CursorLockMode.None;
+			motor.Move (Vector3.zero);
+			motor.Rotate (Vector3.zero);
+			motor.RotateCamera(0f);
+
 			return;
 		}
+
+		if (Cursor.lockState != CursorLockMode.Locked) {
+			Cursor.lockState = CursorLockMode.Locked;
+		}
+
 
 		//bereken movement als 3d vector
 		float xMov = Input.GetAxis("Horizontal");
@@ -100,15 +112,21 @@ public class PlayerController : MonoBehaviour {
 		//goldpot oppakken
 		if (Input.GetButtonDown("Use") && isHolding == false) {
 			if (GoldPot != null) {
+//					Debug.Log ("removing Authority from " + GoldPot.GetComponent<NetworkIdentity>().clientAuthorityOwner.ToString());
+				GetComponent<PlayerManager>().CmdWantToPutDown();
 				animator.SetBool("isCarrying", true);
+				GetComponent<PlayerManager>().CmdWantToPickUp();
+//					Debug.Log ("giving Authority to " + GoldPot.GetComponent<NetworkIdentity>().clientAuthorityOwner.ToString());
+//				GoldPot.GetComponent<NetworkIdentity>().AssignClientAuthority(this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
+//				Debug.Log ("authority voor de goldpot voor: " + this.gameObject.GetComponent<NetworkIdentity>().connectionToClient);
 				GoldPot.GetComponent<BoxCollider>().enabled = false;
 				GoldPot.GetComponent<Rigidbody>().isKinematic = true;
 				GoldPot.transform.SetParent(carryObject.transform);
 				GoldPot.transform.localPosition = Vector3.zero;
 				GoldPot.transform.localRotation = Quaternion.identity;
 				isHolding = true;
-				}
 			}
+		}
 		else if (Input.GetButtonDown("Use") && isHolding == true) {
 			if (GoldPot != null) {
 				animator.SetBool("isCarrying", false);
@@ -118,10 +136,9 @@ public class PlayerController : MonoBehaviour {
 				isHolding = false;
 				}
 			}
-
 		//TIJDELIJK!!
 		if (Input.GetKey(KeyCode.K))
-			GetComponentInParent<PlayerManager>().RpcTakeDamage(999999);
+			GetComponentInParent<PlayerManager>().RpcTakeDamage(999999, this.name);
 
 	}
 
@@ -136,9 +153,8 @@ public class PlayerController : MonoBehaviour {
 		void OnTriggerExit (Collider collider) {
 			Debug.Log ("NOT close enough to pick up pot");
 			GoldPot = null;
-			Debug.Log ("collider found: " + GoldPot);
+			Debug.Log ("collider gone: " + GoldPot);
 		}
-
 
 }
 	

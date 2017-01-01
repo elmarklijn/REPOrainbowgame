@@ -60,6 +60,7 @@ public class PlayerSetup : NetworkBehaviour {
 		PlayerManager player = GetComponent<PlayerManager>();
 
 		GameManager.RegisterPlayer(netID, player);
+
 	}
 
 	void AssignRemoteLayer() {
